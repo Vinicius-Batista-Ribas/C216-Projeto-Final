@@ -1,0 +1,386 @@
+{
+	"info": {
+		"_postman_id": "0bbcdd62-0fd0-4e62-b316-a39f833b8ad3",
+		"name": "Projeto final",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "18248784"
+	},
+	"item": [
+		{
+			"name": "RESET DATASET",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Response should confirm deletion\", function () {",
+							"    pm.expect(pm.response.json().message).to.eql('Banco de dados limpo com sucesso!');",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/v1/home/reset/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"v1",
+						"home",
+						"reset",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET BY NAME",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Response should be a list\", function () {",
+							"    pm.expect(pm.response.json()).to.be.an('array');",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/v1/home/mod/monstros",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"v1",
+						"home",
+						"mod",
+						"monstros"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET ALL",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Response should be a list\", function () {",
+							"    pm.expect(pm.response.json()).to.be.an('array');",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/v1/home/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"v1",
+						"home",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET BY CATEGORY",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Response should be a list\", function () {",
+							"    pm.expect(pm.response.json()).to.be.an('array');",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8000/api/v1/home/list/category/armaduras",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"v1",
+						"home",
+						"list",
+						"category",
+						"armaduras"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET BY GAMES",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Response should be a list\", function () {",
+							"    pm.expect(pm.response.json()).to.be.an('array');",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8000/api/v1/home/list/game/bg3",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"v1",
+						"home",
+						"list",
+						"game",
+						"bg3"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST MOD",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 201\", function () {",
+							"    pm.response.to.have.status(201);",
+							"});",
+							"pm.test(\"Response should contain confirmation message\", function () {",
+							"    pm.expect(pm.response.json().message).to.eql('MOD cadastrado com sucesso!');",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"nome\": \"test\",\n  \"jogo\": \"BG3\",\n  \"descricao\": \"mod de test\",\n  \"versao\": \"2.32\",\n  \"autores\": \"Irineu\",\n  \"categoria\": \"Armaduras e escudos\",\n  \"tamanho\": \"15.2MB\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/v1/home",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"v1",
+						"home"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "UPDATE MOD",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Message confirms update\", function () {",
+							"    const jsonData = pm.response.json();",
+							"    pm.expect(jsonData.message).to.eql(\"MOD atualizado com sucesso!\");",
+							"});",
+							"",
+							"pm.test(\"MOD fields are correct\", function () {",
+							"    const mod = pm.response.json().MOD; // Confirme que \"MOD\" é o campo retornado",
+							"    pm.expect(mod.nome).to.eql(\"test ATUALIZADO\");",
+							"    pm.expect(mod.jogo).to.eql(\"BG3\");",
+							"    pm.expect(mod.descricao).to.eql(\"mod de teste\");",
+							"    pm.expect(mod.versao).to.eql(\"1.0\");",
+							"    pm.expect(mod.autores).to.eql(\"Autor de Teste\");",
+							"    pm.expect(mod.categoria).to.eql(\"RPG\");",
+							"    pm.expect(mod.tamanho).to.eql(\"15MB\");",
+							"});",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"nome\": \"test ATUALIZADO\",\n    \"jogo\": \"BG3\",\n    \"descricao\": \"mod de teste\",\n    \"versao\": \"1.0\",\n    \"autores\": \"Autor de Teste\",\n    \"categoria\": \"RPG\",\n    \"tamanho\": \"15MB\"\n}\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/v1/home/mod/4",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"v1",
+						"home",
+						"mod",
+						"4"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DELETE",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Response should confirm deletion\", function () {",
+							"    pm.expect(pm.response.json().message).to.eql(\"Mod removido com sucesso\");",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8000/api/v1/home/mod/4",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"v1",
+						"home",
+						"mod",
+						"4"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
