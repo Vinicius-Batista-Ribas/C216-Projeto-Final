@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Mod</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="mb-4">Editar Mod</h1>
+        <form action="/atualizar/{{ mod.id }}" method="POST">
+            <div class="mb-3">
+                <label for="nome" class="form-label">Nome</label>
+                <input type="text" id="nome" name="nome" class="form-control" value="{{ mod.nome }}">
+            </div>
+            <div class="mb-3">
+                <label for="jogo" class="form-label">Jogo</label>
+                <input type="text" id="jogo" name="jogo" class="form-control" value="{{ mod.jogo }}">
+            </div>
+            <div class="mb-3">
+                <label for="descricao" class="form-label">Descrição</label>
+                <textarea id="descricao" name="descricao" class="form-control" rows="3">{{ mod.descricao }}</textarea>
+            </div>
+            <div class="mb-3">
+                <label for="versao" class="form-label">Versão</label>
+                <input type="text" id="versao" name="versao" class="form-control" value="{{ mod.versao }}">
+            </div>
+            <div class="mb-3">
+                <label for="autores" class="form-label">Autores</label>
+                <input type="text" id="autores" name="autores" class="form-control" value="{{ mod.autores }}">
+            </div>
+            <div class="mb-3">
+                <label for="categoria" class="form-label">Categoria</label>
+                <input type="text" id="categoria" name="categoria" class="form-control" value="{{ mod.categoria }}">
+            </div>
+            <div class="mb-3">
+                <label for="tamanho" class="form-label">Tamanho</label>
+                <input type="text" id="tamanho" name="tamanho" class="form-control" value="{{ mod.tamanho }}">
+            </div>
+            <button type="submit" class="btn btn-primary">Salvar Alterações</button>
+            <a href="/mods" class="btn btn-secondary">Voltar</a>
+        </form>
+    </div>
+</body>
+</html>
