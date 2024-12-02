@@ -30,6 +30,7 @@ def inserir_mod_form():
 # Rota para enviar os dados do formulário de cadastro de mod para a API
 @app.route('/inserir', methods=['POST'])
 def inserir_mod():
+
     nome = request.form['nome']
     jogo = request.form['jogo']
     descricao = request.form['descricao']
@@ -56,9 +57,10 @@ def inserir_mod():
         return "Erro ao inserir mod", 500
 
 # Rota para exibir o formulário de edição de mod
-@app.route('/atualizar/<string:mod_nome>', methods=['GET'])
-def atualizar_mod_form(mod_nome):
-    response = requests.get(f"{API_BASE_URL}/api/v1/home/mod/{mod_nome}")
+@app.route('/atualizar/<int:mod_id>', methods=['GET'])
+def atualizar_mod_form(mod_id):
+
+    response = requests.get(f"{API_BASE_URL}/api/v1/home/mod/{mod_id}")
     
     if response.status_code == 200:
         mod = response.json()
@@ -67,8 +69,9 @@ def atualizar_mod_form(mod_nome):
         return "Mod não encontrado", 404
 
 # Rota para enviar os dados do formulário de edição de mod para a API
-@app.route('/atualizar/<int:mod_id>', methods=['POST'])
+@app.route('/atualizar/mod/<int:mod_id>', methods=['POST'])
 def atualizar_mod(mod_id):
+
     nome = request.form.get('nome')
     jogo = request.form.get('jogo')
     descricao = request.form.get('descricao')
@@ -77,6 +80,7 @@ def atualizar_mod(mod_id):
     categoria = request.form.get('categoria')
     tamanho = request.form.get('tamanho')
 
+    
     payload = {
         'nome': nome,
         'jogo': jogo,
@@ -86,9 +90,9 @@ def atualizar_mod(mod_id):
         'categoria': categoria,
         'tamanho': tamanho
     }
-
-    response = requests.patch(f"{API_BASE_URL}/api/v1/home/mod/{mod_id}", json=payload)
     
+    response = requests.patch(f"{API_BASE_URL}/api/v1/home/mod/{mod_id}", json=payload)
+
     if response.status_code == 200:
         return redirect(url_for('listar_mods'))
     else:
@@ -116,3 +120,41 @@ def resetar_database():
 
 if __name__ == '__main__':
     app.run(debug=True, port=3000, host='0.0.0.0')
+
+@app.route('/download/<int:mod_id>', methods=['GET'])
+def baixar_mod(mod_id):
+
+    response = requests.get(f"{API_BASE_URL}/api/v1/home/mod/{mod_id}")
+
+    if response.status_code == 200:
+        mod = response.json()  # Converte a resposta em um dicionário Python
+        # Agora você pode acessar os dados do mod diretamente
+        nome_mod = mod.get('nome')
+        nome_jogo = mod.get('jogo')
+        descricao = mod.get('descricao')
+        versao = mod.get('versao')
+        autores = mod.get('autores')
+        categoria = mod.get('categoria')
+        tamanho = mod.get('tamanho')
+
+        # Exemplo de como você pode processar esses dados
+        conteudo_arquivo = f"Parabéns! Você baixou seu mod de {nome_jogo}!\n"
+        conteudo_arquivo += f"Nome do Mod: {nome_mod}\n"
+        conteudo_arquivo += f"Descrição: {descricao}\n"
+        conteudo_arquivo += f"Versão: {versao}\n"
+        conteudo_arquivo += f"Autores: {autores}\n"
+        conteudo_arquivo += f"Categoria: {categoria}\n"
+        conteudo_arquivo += f"Tamanho: {tamanho}\n"
+        
+        # Aqui você pode salvar o conteúdo do arquivo, exibir no console, etc.
+        print(conteudo_arquivo)
+    else:
+        print("Erro ao buscar os dados do mod.")
+    caminho_arquivo = f"downloads/{nome_mod}_baixado.txt"
+    os.makedirs(os.path.dirname(caminho_arquivo), exist_ok=True)
+
+    with open(caminho_arquivo, 'w') as file:
+        file.write(conteudo_arquivo)
+        
+    return os.sendfile(caminho_arquivo, as_attachment=True, download_name=f"{nome_mod}_mod.txt")
+        

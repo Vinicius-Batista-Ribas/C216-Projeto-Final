@@ -115,7 +115,23 @@ async def listar_mods_por_jogo(jogo: str):
 
 
 ### Buscar por id
-@app.get("/api/v1/home/mod/{nome}", response_model=List[Mods])
+@app.get("/api/v1/home/mod/{mod_id}")
+async def listar_mods_filtrados(mod_id: int):
+
+    conn = await get_database()
+    try:
+        query = "SELECT * FROM mods WHERE id = $1"
+        results = await conn.fetchrow(query, mod_id)
+        if not results:
+            raise HTTPException(status_code=404, detail="MOD NAO ENCONTRADO")
+        return dict(results)
+    
+    
+    finally: 
+        await conn.close()
+
+
+@app.get("/api/v1/home/mod/name/{nome}", response_model=List[Mods])
 async def listar_mods_filtrados(nome: str):
     conn = await get_database()
     try:
@@ -141,49 +157,41 @@ async def atualizar(mod_id: int, mod_atualizado: AtualizarMods):
             raise HTTPException(status_code=404, detail="Mod não encontrado")
         
         # Lista de campos a serem atualizados
-        update_fields = []
-        params = []
+        update_query = """
+            UPDATE mods
+            SET nome = COALESCE($1, nome),
+                jogo = COALESCE($2, jogo),
+                descricao = COALESCE($3, descricao),
+                versao = COALESCE($4, versao),
+                autores = COALESCE($5, autores),
+                categoria = COALESCE($6, categoria),
+                tamanho = COALESCE($7, tamanho)
+            WHERE id = $8
+        """
 
-        if mod_atualizado.nome is not None:
-            update_fields.append("nome = $2")
-            params.append(mod_atualizado.nome)
-        if mod_atualizado.jogo is not None:
-            update_fields.append("jogo = $3")
-            params.append(mod_atualizado.jogo)
-        if mod_atualizado.descricao is not None:
-            update_fields.append("descricao = $4")
-            params.append(mod_atualizado.descricao)
-        if mod_atualizado.versao is not None:
-            update_fields.append("versao = $5")
-            params.append(mod_atualizado.versao)
-        if mod_atualizado.autores is not None:
-            update_fields.append("autores = $6")
-            params.append(mod_atualizado.autores)
-        if mod_atualizado.categoria is not None:
-            update_fields.append("categoria = $7")
-            params.append(mod_atualizado.categoria)
-        if mod_atualizado.tamanho is not None:
-            update_fields.append("tamanho = $8")
-            params.append(mod_atualizado.tamanho)
-
-        # Se houver campos para atualizar, executa a query
-        if update_fields:
-            update_query = f"UPDATE mods SET {', '.join(update_fields)} WHERE id = $1 RETURNING *"
-            params.insert(0, mod_id)  # Adiciona o mod_id como o primeiro parâmetro
-            updated_mod = await conn.fetchrow(update_query, *params)
-
-            if updated_mod:
-                return {"message": "MOD atualizado com sucesso!", "MOD": dict(updated_mod)}
-            else:
-                raise HTTPException(status_code=404, detail="Falha ao atualizar o MOD")
-        else:
-            return {"message": "Nenhuma alteração encontrada."}
-    
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Erro ao atualizar mod: {str(e)}")
-    
+        await conn.execute(
+            update_query,
+            mod_atualizado.nome,
+            mod_atualizado.jogo,
+            mod_atualizado.descricao,
+            mod_atualizado.versao,
+            mod_atualizado.autores,
+            mod_atualizado.categoria,
+            mod_atualizado.tamanho,
+            mod_id
+        )
+        
+        # Busca o mod atualizado
+        updated_mod = await conn.fetchrow(query, mod_id)
+        
+        # Retorna o mod atualizado na resposta
+        return {
+            "message": "MOD atualizado com sucesso!",
+            "MOD": dict(updated_mod)
+        }
     finally:
         await conn.close()
+
 ### REMOVER        
 @app.delete("/api/v1/home/mod/{mod_id}")
 async def remove(mod_id: int):

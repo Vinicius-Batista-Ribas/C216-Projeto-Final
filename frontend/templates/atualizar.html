@@ -9,7 +9,7 @@
 <body>
     <div class="container mt-5">
         <h1 class="mb-4">Editar Mod</h1>
-        <form action="/atualizar/{{ mod.id }}" method="POST">
+        <form action="/atualizar/mod/{{ mod.id }}" method="POST">
             <div class="mb-3">
                 <label for="nome" class="form-label">Nome</label>
                 <input type="text" id="nome" name="nome" class="form-control" value="{{ mod.nome }}">
@@ -38,7 +38,7 @@
                 <label for="tamanho" class="form-label">Tamanho</label>
                 <input type="text" id="tamanho" name="tamanho" class="form-control" value="{{ mod.tamanho }}">
             </div>
-            <button type="submit" class="btn btn-primary">Salvar Alterações</button>
+            <input type="submit" class="btn btn-primary", value="Salvar Alterações">
             <a href="/mods" class="btn btn-secondary">Voltar</a>
         </form>
     </div>
