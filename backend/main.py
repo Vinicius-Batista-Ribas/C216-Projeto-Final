@@ -42,7 +42,7 @@ async def log_requests(request: Request, call_next):
     return response
 
 
-### Verificar se o produto existe
+### Verificar se existe
 async def exist(nome: str, conn: asyncpg.Connection):
     try:
         query = "SELECT * FROM mods WHERE LOWER(nome) = LOWER($1)"
