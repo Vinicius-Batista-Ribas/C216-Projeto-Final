@@ -73,7 +73,50 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://127.0.0.1:8000/api/v1/home/mod/monstros",
+					"raw": "http://127.0.0.1:8000/api/v1/home/list/escudo",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"v1",
+						"home",
+						"list",
+						"escudo"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "busca por id",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Response should contain book details\", function () {",
+							"    pm.expect(pm.response.json()).to.have.property('nome');",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/v1/home/mod/2",
 					"protocol": "http",
 					"host": [
 						"127",
@@ -87,7 +130,7 @@
 						"v1",
 						"home",
 						"mod",
-						"monstros"
+						"2"
 					]
 				}
 			},
@@ -130,88 +173,6 @@
 						"v1",
 						"home",
 						""
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "GET BY CATEGORY",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"exec": [
-							"pm.test(\"Status code is 200\", function () {",
-							"    pm.response.to.have.status(200);",
-							"});",
-							"pm.test(\"Response should be a list\", function () {",
-							"    pm.expect(pm.response.json()).to.be.an('array');",
-							"});"
-						],
-						"type": "text/javascript",
-						"packages": {}
-					}
-				}
-			],
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "http://localhost:8000/api/v1/home/list/category/armaduras",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8000",
-					"path": [
-						"api",
-						"v1",
-						"home",
-						"list",
-						"category",
-						"armaduras"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "GET BY GAMES",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"exec": [
-							"pm.test(\"Status code is 200\", function () {",
-							"    pm.response.to.have.status(200);",
-							"});",
-							"pm.test(\"Response should be a list\", function () {",
-							"    pm.expect(pm.response.json()).to.be.an('array');",
-							"});"
-						],
-						"type": "text/javascript",
-						"packages": {}
-					}
-				}
-			],
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "http://localhost:8000/api/v1/home/list/game/bg3",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8000",
-					"path": [
-						"api",
-						"v1",
-						"home",
-						"list",
-						"game",
-						"bg3"
 					]
 				}
 			},
@@ -284,7 +245,7 @@
 							"});",
 							"",
 							"pm.test(\"MOD fields are correct\", function () {",
-							"    const mod = pm.response.json().MOD; // Confirme que \"MOD\" é o campo retornado",
+							"    const mod = pm.response.json().MOD; // Certifique-se de acessar MOD corretamente",
 							"    pm.expect(mod.nome).to.eql(\"test ATUALIZADO\");",
 							"    pm.expect(mod.jogo).to.eql(\"BG3\");",
 							"    pm.expect(mod.descricao).to.eql(\"mod de teste\");",

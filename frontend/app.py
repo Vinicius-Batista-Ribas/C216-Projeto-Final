@@ -1,4 +1,5 @@
-from flask import Flask, render_template, request, redirect, url_for, jsonify
+from io import BytesIO
+from flask import Flask, render_template, request, redirect, url_for, jsonify, send_file
 import requests
 import os
 
@@ -118,43 +119,42 @@ def resetar_database():
     else:
         return "Erro ao resetar o database", 500
 
+
+@app.route('/download/<int:mod_id>', methods=['GET'])
+def baixar(mod_id):
+
+    response = requests.get(f"{API_BASE_URL}/api/v1/home/mod/{mod_id}")
+    
+    if response.status_code == 200:
+        mod = response.json()
+        
+        # Criar o conteúdo do arquivo de texto
+        file_content = (
+            f"Parabéns, você baixou o mod do jogo {mod['jogo']}!\n"
+            f"Nome do mod: {mod['nome']}\n"
+            f"Versão: {mod['versao']}\n"
+            f"Autores: {mod['autores']}\n"
+            f"Descrição: {mod['descricao']}"
+        )
+        
+        # Criar um arquivo em memória
+        file = BytesIO(file_content.encode('utf-8'))
+        file.seek(0)  # Reposicionar o ponteiro para o início do arquivo
+
+        # Retornar o arquivo para download
+        return send_file(
+            file,
+            as_attachment=True,
+            download_name=f"mod_{mod_id}_download.txt",
+            mimetype='text/plain'
+        )
+    
+    else:
+        # Retornar erro caso o mod não seja encontrado
+        return jsonify({"error": "Mod não encontrado"}), 404
+
 if __name__ == '__main__':
     app.run(debug=True, port=3000, host='0.0.0.0')
 
-@app.route('/download/<int:mod_id>', methods=['GET'])
-def baixar_mod(mod_id):
 
-    response = requests.get(f"{API_BASE_URL}/api/v1/home/mod/{mod_id}")
 
-    if response.status_code == 200:
-        mod = response.json()  # Converte a resposta em um dicionário Python
-        # Agora você pode acessar os dados do mod diretamente
-        nome_mod = mod.get('nome')
-        nome_jogo = mod.get('jogo')
-        descricao = mod.get('descricao')
-        versao = mod.get('versao')
-        autores = mod.get('autores')
-        categoria = mod.get('categoria')
-        tamanho = mod.get('tamanho')
-
-        # Exemplo de como você pode processar esses dados
-        conteudo_arquivo = f"Parabéns! Você baixou seu mod de {nome_jogo}!\n"
-        conteudo_arquivo += f"Nome do Mod: {nome_mod}\n"
-        conteudo_arquivo += f"Descrição: {descricao}\n"
-        conteudo_arquivo += f"Versão: {versao}\n"
-        conteudo_arquivo += f"Autores: {autores}\n"
-        conteudo_arquivo += f"Categoria: {categoria}\n"
-        conteudo_arquivo += f"Tamanho: {tamanho}\n"
-        
-        # Aqui você pode salvar o conteúdo do arquivo, exibir no console, etc.
-        print(conteudo_arquivo)
-    else:
-        print("Erro ao buscar os dados do mod.")
-    caminho_arquivo = f"downloads/{nome_mod}_baixado.txt"
-    os.makedirs(os.path.dirname(caminho_arquivo), exist_ok=True)
-
-    with open(caminho_arquivo, 'w') as file:
-        file.write(conteudo_arquivo)
-        
-    return os.sendfile(caminho_arquivo, as_attachment=True, download_name=f"{nome_mod}_mod.txt")
-        

@@ -1,22 +1,22 @@
 {
-	"id": "8d58a230-4b2c-42b9-a7c7-0390d83d7499",
+	"id": "c79cf0b7-5fb3-492a-bcc0-058232a10633",
 	"name": "Projeto final",
-	"timestamp": "2024-11-30T12:00:03.796Z",
+	"timestamp": "2024-12-03T00:25:16.656Z",
 	"collection_id": "18248784-0bbcdd62-0fd0-4e62-b316-a39f833b8ad3",
 	"folder_id": 0,
 	"environment_id": "0",
-	"totalPass": 17,
+	"totalPass": 15,
 	"delay": 0,
 	"persist": true,
 	"status": "finished",
-	"startedAt": "2024-11-30T12:00:03.001Z",
+	"startedAt": "2024-12-03T00:25:15.659Z",
 	"totalFail": 0,
 	"results": [
 		{
 			"id": "0fb5ac9a-9604-4b84-8b02-006f0cdf0b0d",
 			"name": "RESET DATASET",
 			"url": "http://127.0.0.1:8000/api/v1/home/reset/",
-			"time": 49,
+			"time": 77,
 			"responseCode": {
 				"code": 200,
 				"name": "OK"
@@ -36,7 +36,7 @@
 				}
 			},
 			"times": [
-				49
+				77
 			],
 			"allTests": [
 				{
@@ -48,8 +48,8 @@
 		{
 			"id": "6efd803e-50e6-4598-a5f7-c925dd752558",
 			"name": "GET BY NAME",
-			"url": "http://127.0.0.1:8000/api/v1/home/mod/monstros",
-			"time": 44,
+			"url": "http://127.0.0.1:8000/api/v1/home/list/escudo",
+			"time": 54,
 			"responseCode": {
 				"code": 200,
 				"name": "OK"
@@ -69,12 +69,45 @@
 				}
 			},
 			"times": [
-				44
+				54
 			],
 			"allTests": [
 				{
 					"Status code is 200": true,
 					"Response should be a list": true
+				}
+			]
+		},
+		{
+			"id": "04feb13e-c849-4e06-9b88-a3b0e34f87c3",
+			"name": "busca por id",
+			"url": "http://127.0.0.1:8000/api/v1/home/mod/2",
+			"time": 80,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code is 200": true,
+				"Response should contain book details": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Response should contain book details": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				80
+			],
+			"allTests": [
+				{
+					"Status code is 200": true,
+					"Response should contain book details": true
 				}
 			]
 		},
@@ -82,7 +115,7 @@
 			"id": "219f4d13-bc0a-43e8-85bc-0f3c0b04c7ca",
 			"name": "GET ALL",
 			"url": "http://127.0.0.1:8000/api/v1/home/",
-			"time": 43,
+			"time": 51,
 			"responseCode": {
 				"code": 200,
 				"name": "OK"
@@ -102,73 +135,7 @@
 				}
 			},
 			"times": [
-				43
-			],
-			"allTests": [
-				{
-					"Status code is 200": true,
-					"Response should be a list": true
-				}
-			]
-		},
-		{
-			"id": "8b189d0c-95d0-444d-8d8b-35bf601b9083",
-			"name": "GET BY CATEGORY",
-			"url": "http://localhost:8000/api/v1/home/list/category/armaduras",
-			"time": 44,
-			"responseCode": {
-				"code": 200,
-				"name": "OK"
-			},
-			"tests": {
-				"Status code is 200": true,
-				"Response should be a list": true
-			},
-			"testPassFailCounts": {
-				"Status code is 200": {
-					"pass": 1,
-					"fail": 0
-				},
-				"Response should be a list": {
-					"pass": 1,
-					"fail": 0
-				}
-			},
-			"times": [
-				44
-			],
-			"allTests": [
-				{
-					"Status code is 200": true,
-					"Response should be a list": true
-				}
-			]
-		},
-		{
-			"id": "0b0057be-b858-459e-936e-a5e1d57bc8ed",
-			"name": "GET BY GAMES",
-			"url": "http://localhost:8000/api/v1/home/list/game/bg3",
-			"time": 46,
-			"responseCode": {
-				"code": 200,
-				"name": "OK"
-			},
-			"tests": {
-				"Status code is 200": true,
-				"Response should be a list": true
-			},
-			"testPassFailCounts": {
-				"Status code is 200": {
-					"pass": 1,
-					"fail": 0
-				},
-				"Response should be a list": {
-					"pass": 1,
-					"fail": 0
-				}
-			},
-			"times": [
-				46
+				51
 			],
 			"allTests": [
 				{
@@ -181,7 +148,7 @@
 			"id": "c7af330a-4c14-4be5-895d-0a1cfd7d5e99",
 			"name": "POST MOD",
 			"url": "http://127.0.0.1:8000/api/v1/home",
-			"time": 46,
+			"time": 54,
 			"responseCode": {
 				"code": 201,
 				"name": "Created"
@@ -201,7 +168,7 @@
 				}
 			},
 			"times": [
-				46
+				54
 			],
 			"allTests": [
 				{
@@ -214,7 +181,7 @@
 			"id": "8676154a-085e-45ce-88af-512416bfc292",
 			"name": "UPDATE MOD",
 			"url": "http://127.0.0.1:8000/api/v1/home/mod/4",
-			"time": 54,
+			"time": 57,
 			"responseCode": {
 				"code": 200,
 				"name": "OK"
@@ -239,7 +206,7 @@
 				}
 			},
 			"times": [
-				54
+				57
 			],
 			"allTests": [
 				{
@@ -253,7 +220,7 @@
 			"id": "6c3708ae-8932-4c68-94f0-a8ecdcf08507",
 			"name": "DELETE",
 			"url": "http://localhost:8000/api/v1/home/mod/4",
-			"time": 42,
+			"time": 48,
 			"responseCode": {
 				"code": 200,
 				"name": "OK"
@@ -273,7 +240,7 @@
 				}
 			},
 			"times": [
-				42
+				48
 			],
 			"allTests": [
 				{
@@ -284,7 +251,7 @@
 		}
 	],
 	"count": 1,
-	"totalTime": 368,
+	"totalTime": 421,
 	"collection": {
 		"requests": [
 			{
@@ -296,15 +263,11 @@
 				"method": "GET"
 			},
 			{
+				"id": "04feb13e-c849-4e06-9b88-a3b0e34f87c3",
+				"method": "GET"
+			},
+			{
 				"id": "219f4d13-bc0a-43e8-85bc-0f3c0b04c7ca",
-				"method": "GET"
-			},
-			{
-				"id": "8b189d0c-95d0-444d-8d8b-35bf601b9083",
-				"method": "GET"
-			},
-			{
-				"id": "0b0057be-b858-459e-936e-a5e1d57bc8ed",
 				"method": "GET"
 			},
 			{

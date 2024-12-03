@@ -80,38 +80,32 @@ async def listar_mods():
     finally: await conn.close()
 
 ### Listar por filtros
-@app.get("/api/v1/home/list/category/{categoria}", response_model=List[Mods])
-async def listar_mods_por_categoria(categoria: str):
+@app.get("/api/v1/home/list/{type}", response_model=List[Mods])
+async def listar_mods_por_jogo(type: str):
     conn = await get_database()
     try:
-        query = "SELECT * FROM mods WHERE LOWER(categoria) ILIKE LOWER($1)"
-        rows = await conn.fetch(query, f"%{categoria}%")  # Uso de % para buscar similaridades
+        # Consulta SQL com correção
+        query = """
+            SELECT * FROM mods 
+            WHERE LOWER(jogo) ILIKE LOWER($1)
+               OR LOWER(nome) ILIKE LOWER($1)  
+               OR LOWER(categoria) ILIKE LOWER($1)
+        """
+        # Realiza a busca com o tipo, usando '%' para encontrar similaridades
+        rows = await conn.fetch(query, f"%{type}%")
+        
+        # Converter os resultados em uma lista de dicionários
         results = [dict(row) for row in rows]
         
+        # Verifica se algum resultado foi encontrado
         if not results:
-            raise HTTPException(status_code=404, detail=f"Nenhum mod encontrado para a categoria: {categoria}")
+            raise HTTPException(status_code=404, detail=f"Nenhum mod encontrado para o tipo: {type}")
         
         return results
     
     finally:
         await conn.close()
 
-
-@app.get("/api/v1/home/list/game/{jogo}", response_model=List[Mods])
-async def listar_mods_por_jogo(jogo: str):
-    conn = await get_database()
-    try:
-        query = "SELECT * FROM mods WHERE LOWER(jogo) ILIKE LOWER($1)"
-        rows = await conn.fetch(query, f"%{jogo}%")  # Uso de % para buscar similaridades
-        results = [dict(row) for row in rows]
-        
-        if not results:
-            raise HTTPException(status_code=404, detail=f"Nenhum mod encontrado para o jogo: {jogo}")
-        
-        return results
-    
-    finally:
-        await conn.close()
 
 
 ### Buscar por id
@@ -129,21 +123,6 @@ async def listar_mods_filtrados(mod_id: int):
     
     finally: 
         await conn.close()
-
-
-@app.get("/api/v1/home/mod/name/{nome}", response_model=List[Mods])
-async def listar_mods_filtrados(nome: str):
-    conn = await get_database()
-    try:
-        query = "SELECT * FROM mods WHERE LOWER(nome) ILIKE LOWER($1)"
-        results = await conn.fetch(query, f"%{nome}%")
-        if not results:
-            raise HTTPException(status_code=404, detail="MOD NAO ENCONTRADO")
-        mods_list = [Mods(**dict(record)) for record in results]
-        return mods_list
-    
-    
-    finally: await conn.close()
 
 ### ATUALIZAR
 @app.patch("/api/v1/home/mod/{mod_id}", response_model=dict)
